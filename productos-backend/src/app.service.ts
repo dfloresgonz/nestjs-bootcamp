@@ -79,4 +79,13 @@ export class AppService {
     Object.assign(producto, newProducto);
     return producto;
   }
+
+  deleteProduct(id: string) {
+    const index = this.productos.findIndex((producto) => producto.id === +id);
+    if (index === -1) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
+    this.productos.splice(index, 1);
+    return "Product deleted";
+  }
 }

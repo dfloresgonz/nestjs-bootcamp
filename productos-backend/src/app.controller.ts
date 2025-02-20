@@ -45,8 +45,11 @@ export class AppController {
     return this.appService.updateProducto(idProducto, newProductoBody);
   }
 
-  @Delete()
-  borrarProducto() {
-    return "Producto borrado";
+  @Delete(":idProducto")
+  borrarProducto(
+    @Param("idProducto")
+    idProducto: string,
+  ) {
+    return this.appService.deleteProduct(idProducto);
   }
 }
