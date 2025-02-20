@@ -41,7 +41,7 @@ export class AppController {
     idProducto: string,
     @Body()
     newProductoBody: Product,
-  ) {
+  ): Product {
     return this.appService.updateProducto(idProducto, newProductoBody);
   }
 

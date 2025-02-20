@@ -65,7 +65,10 @@ export class AppService {
   }
 
   updateProducto(id: string, newProducto: Product) {
-    let producto = this.findProduct(id);
+    const producto = this.productos.find((producto) => producto.id === +id);
+    if (!producto) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
 
     if (newProducto.isOferta) {
       newProducto.finalPrice =
@@ -73,8 +76,7 @@ export class AppService {
     } else {
       newProducto.finalPrice = newProducto.price;
     }
-
-    producto = { ...producto, ...newProducto };
+    Object.assign(producto, newProducto);
     return producto;
   }
 }
