@@ -8,15 +8,15 @@ import {
   Put,
 } from "@nestjs/common";
 import { AppService } from "./app.service";
-import { Product } from "./utils/types";
+import { Product, ProductApi } from "./utils/types";
 
 @Controller("v1/products")
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getProducts(): Product[] {
-    return this.appService.getAllProducts();
+  async getProducts(): Promise<ProductApi[]> {
+    return await this.appService.getAllProducts();
   }
 
   @Get(":idProducto")

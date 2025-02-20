@@ -1,5 +1,8 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { Product } from "./utils/types";
+import { Product, ProductApi } from "./utils/types";
+import { HttpService } from "@nestjs/axios";
+import { catchError, firstValueFrom } from "rxjs";
+import { AxiosError } from "axios";
 
 @Injectable()
 export class AppService {
@@ -39,6 +42,10 @@ export class AppService {
     },
   ];
 
+  apiHost: string = "https://fakestoreapi.com";
+
+  constructor(private readonly httpService: HttpService) {}
+
   findProduct(id: string): Product {
     const product = this.productos.find((producto) => producto.id === +id);
 
@@ -48,8 +55,16 @@ export class AppService {
     return product;
   }
 
-  getAllProducts(): Product[] {
-    return this.productos;
+  async getAllProducts(): Promise<ProductApi[]> {
+    const { data } = await firstValueFrom(
+      this.httpService.get<any[]>(`${this.apiHost}/products`).pipe(
+        catchError((error: AxiosError) => {
+          console.error("error:", error);
+          throw new Error("An error happened!");
+        }),
+      ),
+    );
+    return data as ProductApi[];
   }
 
   crearProducto(newProducto: Product): Product {
