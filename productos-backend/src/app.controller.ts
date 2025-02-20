@@ -1,18 +1,36 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Product } from './utils/types';
 
-@Controller('products')
+@Controller('v1/products')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('saludar')
-  getHello(): string {
-    return `${this.appService.saludar()}`;
+  @Get()
+  getProducts(): Product[] {
+    return this.appService.getAllProducts();
   }
 
-  @Get('')
-  getProducts(): Product[] {
-    return this.appService.getProducts();
+  @Get(':idProducto')
+  getProductById(
+    @Param('idProducto')
+    idProducto: string,
+  ): Product | object {
+    return this.appService.findProduct(idProducto);
+  }
+
+  @Post()
+  crearProducto() {
+    return 'Producto creado';
+  }
+
+  @Put()
+  actualizarProducto() {
+    return 'Producto actualizado';
+  }
+
+  @Delete()
+  borrarProducto() {
+    return 'Producto borrado';
   }
 }
