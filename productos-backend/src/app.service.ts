@@ -39,7 +39,7 @@ export class AppService {
     },
   ];
 
-  findProduct(id: string): Product | object {
+  findProduct(id: string): Product {
     const product = this.productos.find((producto) => producto.id === +id);
 
     if (!product) {
@@ -50,5 +50,31 @@ export class AppService {
 
   getAllProducts(): Product[] {
     return this.productos;
+  }
+
+  crearProducto(newProducto: Product): Product {
+    newProducto.id = Math.floor(Math.random() * 10000);
+    if (newProducto.isOferta) {
+      newProducto.finalPrice =
+        newProducto.price - newProducto.price * newProducto.porcentajeOferta;
+    } else {
+      newProducto.finalPrice = newProducto.price;
+    }
+    this.productos.push(newProducto);
+    return newProducto;
+  }
+
+  updateProducto(id: string, newProducto: Product) {
+    let producto = this.findProduct(id);
+
+    if (newProducto.isOferta) {
+      newProducto.finalPrice =
+        newProducto.price - newProducto.price * newProducto.porcentajeOferta;
+    } else {
+      newProducto.finalPrice = newProducto.price;
+    }
+
+    producto = { ...producto, ...newProducto };
+    return producto;
   }
 }
