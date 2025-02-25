@@ -1,9 +1,10 @@
 import { Module } from "@nestjs/common";
 import { GatewayController } from "./gateway.controller";
 import { GatewayService } from "./gateway.service";
+import { ProductoModuleModule } from "./producto-module/producto-module.module";
 
 @Module({
-  imports: [],
+  imports: [ProductoModuleModule],
   controllers: [GatewayController],
   providers: [GatewayService],
 })
