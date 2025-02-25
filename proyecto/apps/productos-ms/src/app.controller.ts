@@ -1,55 +1,63 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-} from "@nestjs/common";
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { Controller } from "@nestjs/common";
 import { AppService } from "./app.service";
-import { Product, ProductApi } from "./utils/types";
+import { Product, ProductApi } from "../../utils/types";
+import { MessagePattern, Payload } from "@nestjs/microservices";
 
-@Controller("v1/products")
+@Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
+  @MessagePattern("getProducts")
   async getProducts(): Promise<ProductApi[]> {
     return await this.appService.getAllProducts();
   }
 
-  @Get(":idProducto")
+  @MessagePattern("getProductById")
   getProductById(
-    @Param("idProducto")
+    @Payload()
     idProducto: string,
   ): Product {
-    return this.appService.findProduct(idProducto);
+    try {
+      return this.appService.findProduct(idProducto);
+    } catch (error) {
+      console.error("error:", error);
+      throw new Error("An error happened!");
+    }
   }
 
-  @Post()
+  @MessagePattern("crearProducto")
   crearProducto(
-    @Body()
+    @Payload()
     newProductoBody: Product,
   ): Product {
     return this.appService.crearProducto(newProductoBody);
   }
 
-  @Put(":idProducto")
+  @MessagePattern("actualizarProducto")
   actualizarProducto(
-    @Param("idProducto")
-    idProducto: string,
-    @Body()
-    newProductoBody: Product,
+    @Payload()
+    valoresUpdate: any,
   ): Product {
-    return this.appService.updateProducto(idProducto, newProductoBody);
+    try {
+      const { idProducto, newProductoBody } = valoresUpdate;
+      return this.appService.updateProducto(idProducto, newProductoBody);
+    } catch (error) {
+      console.error("error:", error);
+      throw new Error("An error happened!");
+    }
   }
 
-  @Delete(":idProducto")
+  @MessagePattern("borrarProducto")
   borrarProducto(
-    @Param("idProducto")
+    @Payload()
     idProducto: string,
   ) {
-    return this.appService.deleteProduct(idProducto);
+    try {
+      return this.appService.deleteProduct(idProducto);
+    } catch (error) {
+      console.error("error:", error);
+      throw new Error("An error happened!");
+    }
   }
 }

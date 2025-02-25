@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { Product, ProductApi } from "./utils/types";
+import { Product, ProductApi } from "../../utils/types";
 import { HttpService } from "@nestjs/axios";
 import { catchError, firstValueFrom } from "rxjs";
 import { AxiosError } from "axios";
@@ -50,7 +50,7 @@ export class AppService {
     const product = this.productos.find((producto) => producto.id === +id);
 
     if (!product) {
-      throw new NotFoundException(`Product with id ${id} not found`);
+      throw new Error(`Product with id ${id} not found`);
     }
     return product;
   }

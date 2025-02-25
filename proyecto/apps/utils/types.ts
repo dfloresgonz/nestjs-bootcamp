@@ -21,3 +21,8 @@ export type ProductApi = {
     count: number;
   };
 };
+
+export type ErrorResponse = {
+  statusCode: number;
+  message: string;
+};
