@@ -1,12 +1,29 @@
-import { Controller, Get } from "@nestjs/common";
-import { GatewayService } from "./gateway.service";
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UnauthorizedException,
+} from "@nestjs/common";
+import { AuthService } from "./auth/auth.service";
 
 @Controller()
 export class GatewayController {
-  constructor(private readonly gatewayService: GatewayService) {}
+  constructor(private readonly authService: AuthService) {}
 
-  @Get()
-  getHello(): string {
-    return this.gatewayService.getHello();
+  @Post("login")
+  logeo(@Body() datos: { username: string; password: string }): string {
+    const usuario = this.authService.validarUsuario(
+      datos.username,
+      datos.password,
+    );
+    if (!usuario) {
+      console.log("Usuario no autorizado");
+      throw new UnauthorizedException();
+    }
+    return this.authService.generateAccessToken(usuario).access_token;
   }
 }

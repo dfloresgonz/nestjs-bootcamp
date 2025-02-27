@@ -3,6 +3,7 @@ import { GatewayController } from "./gateway.controller";
 import { GatewayService } from "./gateway.service";
 import { ProductoModuleModule } from "./producto-module/producto-module.module";
 import { ConfigModule } from "@nestjs/config";
+import { AuthModule } from "./auth/auth.module";
 import * as Joi from "joi";
 
 @Module({
@@ -16,6 +17,7 @@ import * as Joi from "joi";
       }),
     }),
     ProductoModuleModule,
+    AuthModule,
   ],
   controllers: [GatewayController],
   providers: [GatewayService],

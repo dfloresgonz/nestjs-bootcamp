@@ -7,11 +7,13 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ClientProxy } from "@nestjs/microservices";
 import { ErrorResponse, Product, ProductApi } from "apps/utils/types";
 import { lastValueFrom } from "rxjs";
+import { MiGuardGuard } from "../mi-guard/mi-guard.guard";
 
 @Controller("v1/products")
 export class ProductoController {
@@ -22,9 +24,8 @@ export class ProductoController {
   ) {}
 
   @Get()
+  @UseGuards(MiGuardGuard)
   async getProducts(): Promise<ProductApi[]> {
-    const CLAVE_API_SUNAT = this.configService.get<string>("CLAVE_API_SUNAT");
-    console.log("CLAVE_API_SUNAT:", CLAVE_API_SUNAT);
     return await lastValueFrom(this.productoClient.send("getProducts", {}));
   }
 
