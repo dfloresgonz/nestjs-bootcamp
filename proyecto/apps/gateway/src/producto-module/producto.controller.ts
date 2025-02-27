@@ -8,6 +8,7 @@ import {
   Post,
   Put,
 } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { ClientProxy } from "@nestjs/microservices";
 import { ErrorResponse, Product, ProductApi } from "apps/utils/types";
 import { lastValueFrom } from "rxjs";
@@ -17,10 +18,13 @@ export class ProductoController {
   constructor(
     @Inject("PRODUCTO_SERVICE")
     private readonly productoClient: ClientProxy,
+    private configService: ConfigService,
   ) {}
 
   @Get()
   async getProducts(): Promise<ProductApi[]> {
+    const CLAVE_API_SUNAT = this.configService.get<string>("CLAVE_API_SUNAT");
+    console.log("CLAVE_API_SUNAT:", CLAVE_API_SUNAT);
     return await lastValueFrom(this.productoClient.send("getProducts", {}));
   }
 
