@@ -26,6 +26,7 @@ export class ProductoController {
   @Get()
   @UseGuards(MiGuardGuard)
   async getProducts(): Promise<ProductApi[]> {
+    console.log("getProducts");
     return await lastValueFrom(this.productoClient.send("getProducts", {}));
   }
 
