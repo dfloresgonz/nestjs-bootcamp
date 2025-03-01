@@ -13,7 +13,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
           transport: Transport.TCP,
           options: {
             host: "0.0.0.0",
-            port: 3001,
+            port: +process.env.PRODUCTO_SERVICE_PORT!,
           },
         }),
         inject: [ConfigService],

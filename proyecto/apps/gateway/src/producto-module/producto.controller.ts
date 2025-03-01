@@ -30,6 +30,7 @@ export class ProductoController {
   }
 
   @Get(":idProducto")
+  @UseGuards(MiGuardGuard)
   async getProductById(
     @Param("idProducto")
     idProducto: string,
