@@ -12,8 +12,8 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
         useFactory: () => ({
           transport: Transport.TCP,
           options: {
-            host: "0.0.0.0",
-            port: +process.env.PRODUCTO_SERVICE_PORT!,
+            host: process.env.PRODUCTOS_MS_HOST!,
+            port: +process.env.PRODUCTOS_MS_PORT!,
           },
         }),
         inject: [ConfigService],
