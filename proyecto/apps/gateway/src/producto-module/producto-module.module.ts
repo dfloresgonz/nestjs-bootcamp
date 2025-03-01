@@ -13,7 +13,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
           transport: Transport.TCP,
           options: {
             host: process.env.PRODUCTOS_MS_HOST!,
-            port: +process.env.PRODUCTOS_MS_PORT!,
+            port: +process.env.PRODUCTO_SERVICE_PORT!,
           },
         }),
         inject: [ConfigService],
