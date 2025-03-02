@@ -9,7 +9,6 @@ import {
   Put,
   UseGuards,
 } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { ClientProxy } from "@nestjs/microservices";
 import { ErrorResponse, Product, ProductApi } from "apps/utils/types";
 import { lastValueFrom } from "rxjs";
@@ -20,7 +19,6 @@ export class ProductoController {
   constructor(
     @Inject("PRODUCTO_SERVICE")
     private readonly productoClient: ClientProxy,
-    private configService: ConfigService,
   ) {}
 
   @Get()

@@ -7,6 +7,10 @@ import { MiGuardGuard } from "./mi-guard/mi-guard.guard";
 async function bootstrap() {
   const app = await NestFactory.create(GatewayModule);
   app.setGlobalPrefix("api");
+  app.enableCors({
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  });
 
   const configService = app.get(ConfigService);
   const port = configService.get<number>("PORT") ?? 3000;

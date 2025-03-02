@@ -15,7 +15,9 @@ export class GatewayController {
   constructor(private readonly authService: AuthService) {}
 
   @Post("login")
-  logeo(@Body() datos: { username: string; password: string }): string {
+  logeo(@Body() datos: { username: string; password: string }): {
+    access_token: string;
+  } {
     const usuario = this.authService.validarUsuario(
       datos.username,
       datos.password,
@@ -24,6 +26,6 @@ export class GatewayController {
       console.log("Usuario no autorizado");
       throw new UnauthorizedException();
     }
-    return this.authService.generateAccessToken(usuario).access_token;
+    return this.authService.generateAccessToken(usuario);
   }
 }
