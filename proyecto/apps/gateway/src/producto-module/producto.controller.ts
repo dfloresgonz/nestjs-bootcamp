@@ -8,11 +8,15 @@ import {
   Post,
   Put,
   UseGuards,
+  UseInterceptors,
 } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 import { ErrorResponse, Product, ProductApi } from "apps/utils/types";
 import { lastValueFrom } from "rxjs";
 import { MiGuardGuard } from "../mi-guard/mi-guard.guard";
+import { PreInteceptor } from "../interceptor/pre.interceptor";
+import { TransformPipe } from "../pipes/transform.pipe";
+import { PostInteceptor } from "../interceptor/post.interceptor";
 
 @Controller("v1/products")
 export class ProductoController {
@@ -22,14 +26,14 @@ export class ProductoController {
   ) {}
 
   @Get()
-  @UseGuards(MiGuardGuard)
+  // @UseGuards(MiGuardGuard)
   async getProducts(): Promise<ProductApi[]> {
     console.log("getProducts");
     return await lastValueFrom(this.productoClient.send("getProducts", {}));
   }
 
   @Get(":idProducto")
-  @UseGuards(MiGuardGuard)
+  @UseInterceptors(PreInteceptor)
   async getProductById(
     @Param("idProducto")
     idProducto: string,
@@ -49,10 +53,12 @@ export class ProductoController {
   }
 
   @Post()
+  @UseInterceptors(PostInteceptor)
   async crearProducto(
-    @Body()
+    @Body(new TransformPipe())
     newProductoBody: Product,
   ): Promise<Product> {
+    console.log("Controller.newProductoBody:", newProductoBody);
     return await lastValueFrom(
       this.productoClient.send("crearProducto", newProductoBody),
     );

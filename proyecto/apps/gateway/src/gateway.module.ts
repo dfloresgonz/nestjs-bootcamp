@@ -1,10 +1,12 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { GatewayController } from "./gateway.controller";
 import { GatewayService } from "./gateway.service";
 import { ProductoModuleModule } from "./producto-module/producto-module.module";
 import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "./auth/auth.module";
 import * as Joi from "joi";
+import { LoggerMiddleware } from "./middleware/Logger.middleware";
+import { VerifyGuard } from "./mi-guard/verify.guard";
 
 @Module({
   imports: [
@@ -22,4 +24,8 @@ import * as Joi from "joi";
   controllers: [GatewayController],
   providers: [GatewayService],
 })
-export class GatewayModule {}
+export class GatewayModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes("*");
+  }
+}

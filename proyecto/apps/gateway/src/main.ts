@@ -3,6 +3,8 @@ import { GatewayModule } from "./gateway.module";
 import { ConfigService } from "@nestjs/config";
 import { ValidationPipe } from "@nestjs/common";
 import { MiGuardGuard } from "./mi-guard/mi-guard.guard";
+import { VerifyGuard } from "./mi-guard/verify.guard";
+import { PreInteceptor } from "./interceptor/pre.interceptor";
 
 async function bootstrap() {
   const app = await NestFactory.create(GatewayModule);
@@ -24,6 +26,9 @@ async function bootstrap() {
   // );
 
   // app.useGlobalGuards(new MiGuardGuard());
+  app.useGlobalGuards(new VerifyGuard());
+  // app.useGlobalInterceptors(new PreInteceptor());
+  // app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(port);
   console.log(`Gateway is running on: ${await app.getUrl()}`);
