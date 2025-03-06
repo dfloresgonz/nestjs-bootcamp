@@ -17,6 +17,7 @@ import { MiGuardGuard } from "../mi-guard/mi-guard.guard";
 import { PreInteceptor } from "../interceptor/pre.interceptor";
 import { TransformPipe } from "../pipes/transform.pipe";
 import { PostInteceptor } from "../interceptor/post.interceptor";
+import { ProductEntity } from "apps/productos-ms/src/entities/product.entity";
 
 @Controller("v1/products")
 export class ProductoController {
@@ -27,7 +28,7 @@ export class ProductoController {
 
   @Get()
   // @UseGuards(MiGuardGuard)
-  async getProducts(): Promise<ProductApi[]> {
+  async getProducts(): Promise<ProductEntity[]> {
     console.log("getProducts");
     return await lastValueFrom(this.productoClient.send("getProducts", {}));
   }
