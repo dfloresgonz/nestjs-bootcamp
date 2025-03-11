@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { IsNotEmpty, IsOptional, MinLength } from "class-validator";
+import { IsNotEmpty, IsOptional, IsPositive, MinLength } from "class-validator";
 
 export class Product {
   id: number;
@@ -41,3 +41,18 @@ export type ErrorResponse = {
   statusCode: number;
   message: string;
 };
+
+export class ProductDTO {
+  id: number;
+
+  @MinLength(3)
+  nameProduct?: string;
+  @IsPositive()
+  @IsOptional()
+  price?: number;
+  imgUrl?: string;
+  description?: string;
+  isOferta?: boolean;
+  porcentajeOferta?: number;
+  finalPrice?: number; //
+}

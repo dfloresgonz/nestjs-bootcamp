@@ -5,6 +5,9 @@ import { HttpModule } from "@nestjs/axios";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ProductEntity } from "./entities/product.entity";
+import { CategoriasModule } from "./categorias/categorias.module";
+import { Categoria } from "./categorias/entities/categoria.entity";
+import { CategoriasService } from "./categorias/categorias.service";
 
 @Module({
   imports: [
@@ -19,13 +22,15 @@ import { ProductEntity } from "./entities/product.entity";
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [ProductEntity],
+      entities: [ProductEntity, Categoria],
       synchronize: false,
       retryAttempts: 2,
       retryDelay: 1000,
       connectTimeoutMS: 5000,
+      logging: true,
     }),
-    TypeOrmModule.forFeature([ProductEntity]),
+    TypeOrmModule.forFeature([ProductEntity, Categoria]),
+    CategoriasModule,
   ],
   controllers: [AppController],
   providers: [AppService],

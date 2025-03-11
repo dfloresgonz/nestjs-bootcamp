@@ -11,7 +11,12 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
-import { ErrorResponse, Product, ProductApi } from "apps/utils/types";
+import {
+  ErrorResponse,
+  Product,
+  ProductApi,
+  ProductDTO,
+} from "apps/utils/types";
 import { lastValueFrom } from "rxjs";
 import { MiGuardGuard } from "../mi-guard/mi-guard.guard";
 import { PreInteceptor } from "../interceptor/pre.interceptor";
@@ -38,7 +43,7 @@ export class ProductoController {
   async getProductById(
     @Param("idProducto")
     idProducto: string,
-  ): Promise<Product | ErrorResponse> {
+  ): Promise<ProductEntity | ErrorResponse> {
     try {
       return await lastValueFrom(
         this.productoClient.send("getProductById", idProducto),
@@ -57,7 +62,7 @@ export class ProductoController {
   @UseInterceptors(PostInteceptor)
   async crearProducto(
     @Body(new TransformPipe())
-    newProductoBody: Product,
+    newProductoBody: ProductEntity,
   ): Promise<Product> {
     console.log("Controller.newProductoBody:", newProductoBody);
     return await lastValueFrom(
@@ -70,8 +75,8 @@ export class ProductoController {
     @Param("idProducto")
     idProducto: string,
     @Body()
-    newProductoBody: Product,
-  ): Promise<Product> {
+    newProductoBody: ProductDTO,
+  ): Promise<any> {
     try {
       return await lastValueFrom(
         this.productoClient.send("actualizarProducto", {

@@ -7,6 +7,7 @@ import { AuthModule } from "./auth/auth.module";
 import * as Joi from "joi";
 import { LoggerMiddleware } from "./middleware/Logger.middleware";
 import { VerifyGuard } from "./mi-guard/verify.guard";
+import { CategoriaModuleModule } from "./categoria-module/categoria-module.module";
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { VerifyGuard } from "./mi-guard/verify.guard";
     }),
     ProductoModuleModule,
     AuthModule,
+    CategoriaModuleModule,
   ],
   controllers: [GatewayController],
   providers: [GatewayService],

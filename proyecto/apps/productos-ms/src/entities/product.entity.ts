@@ -1,4 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  DeleteDateColumn,
+} from "typeorm";
 
 @Entity({ name: "products", schema: "public" })
 export class ProductEntity {
@@ -21,8 +26,11 @@ export class ProductEntity {
   isOferta: boolean;
 
   @Column({ name: "porcentaje_oferta" })
-  porcetajeOferta: number;
+  porcentajeOferta: number;
 
   @Column({ name: "final_price" })
   finalPrice: number;
+
+  @DeleteDateColumn({ name: "fec_borrado" })
+  fecBorrado: Date;
 }

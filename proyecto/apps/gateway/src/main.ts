@@ -17,13 +17,13 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get<number>("PORT") ?? 3000;
 
-  // app.useGlobalPipes(
-  //   new ValidationPipe({
-  //     whitelist: true, // quitar propiedades que no estén en el DTO
-  //     forbidNonWhitelisted: true, // lanzar error si hay propiedades no permitidas
-  //     transform: true, // transformar los datos de entrada a su tipo correcto
-  //   }),
-  // );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // quitar propiedades que no estén en el DTO
+      forbidNonWhitelisted: true, // lanzar error si hay propiedades no permitidas
+      transform: true, // transformar los datos de entrada a su tipo correcto
+    }),
+  );
 
   // app.useGlobalGuards(new MiGuardGuard());
   app.useGlobalGuards(new VerifyGuard());
