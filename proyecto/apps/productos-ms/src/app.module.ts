@@ -7,7 +7,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ProductEntity } from "./entities/product.entity";
 import { CategoriasModule } from "./categorias/categorias.module";
 import { Categoria } from "./categorias/entities/categoria.entity";
-import { CategoriasService } from "./categorias/categorias.service";
+import { CuponesModule } from "./cupones/cupones.module";
 
 @Module({
   imports: [
@@ -22,15 +22,18 @@ import { CategoriasService } from "./categorias/categorias.service";
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [ProductEntity, Categoria],
+      entities: [ProductEntity, Categoria, CuponesModule],
       synchronize: false,
       retryAttempts: 2,
       retryDelay: 1000,
       connectTimeoutMS: 5000,
       logging: true,
+      migrations: [__dirname + "/../migrations/*{.ts,.js}"],
+      migrationsTableName: "migrations_history",
     }),
-    TypeOrmModule.forFeature([ProductEntity, Categoria]),
+    TypeOrmModule.forFeature([ProductEntity, Categoria, CuponesModule]),
     CategoriasModule,
+    CuponesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

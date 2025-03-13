@@ -62,7 +62,7 @@ export class ProductoController {
   @UseInterceptors(PostInteceptor)
   async crearProducto(
     @Body(new TransformPipe())
-    newProductoBody: ProductEntity,
+    newProductoBody: Product,
   ): Promise<Product> {
     console.log("Controller.newProductoBody:", newProductoBody);
     return await lastValueFrom(

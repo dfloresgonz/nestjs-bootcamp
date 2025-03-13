@@ -1,4 +1,5 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
+import { ProductEntity } from "../../entities/product.entity";
 
 @Entity()
 export class Categoria {
@@ -6,4 +7,7 @@ export class Categoria {
   idCategoria: number;
   @Column({ name: "name_categoria" })
   nameCategoria: string;
+
+  @OneToMany(() => ProductEntity, (product) => product.categoria)
+  products: ProductEntity[];
 }

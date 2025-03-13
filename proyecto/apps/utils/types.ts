@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
+import { Categoria } from "apps/productos-ms/src/categorias/entities/categoria.entity";
 import { IsNotEmpty, IsOptional, IsPositive, MinLength } from "class-validator";
 
 export class Product {
@@ -8,7 +9,7 @@ export class Product {
     message: "El nombre del producto no puede estar vacío",
   })
   @MinLength(3)
-  name: string;
+  nameProduct: string;
 
   @IsNotEmpty()
   price: number;
@@ -21,7 +22,9 @@ export class Product {
   @IsNotEmpty()
   porcentajeOferta: number;
   @IsOptional()
-  finalPrice: number; //
+  finalPrice: number;
+
+  categoria_id: number;
 }
 
 export type ProductApi = {

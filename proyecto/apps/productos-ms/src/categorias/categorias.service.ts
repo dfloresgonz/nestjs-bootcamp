@@ -22,8 +22,10 @@ export class CategoriasService {
     return await this.categoryRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} categoria`;
+  async findOne(id: number) {
+    return await this.categoryRepository.findOne({
+      where: { idCategoria: id },
+    });
   }
 
   update(id: number, updateCategoriaDto: UpdateCategoriaDto) {

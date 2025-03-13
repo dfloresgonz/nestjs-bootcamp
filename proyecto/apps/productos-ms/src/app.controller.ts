@@ -31,7 +31,7 @@ export class AppController {
   @MessagePattern("crearProducto")
   async crearProducto(
     @Payload()
-    newProductoBody: ProductEntity,
+    newProductoBody: Product,
   ): Promise<ProductEntity> {
     return await this.appService.crearProducto(newProductoBody);
   }
