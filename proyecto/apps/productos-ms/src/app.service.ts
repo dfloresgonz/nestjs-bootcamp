@@ -56,17 +56,16 @@ export class AppService {
   // }
 
   async getAllProducts(): Promise<ProductEntity[]> {
-    const limitMax = 100;
+    const limit = 100;
     const products = await this.dataSource.query(
       `
       SELECT p.*, c.name_categoria 
       FROM public.products p
       LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
       WHERE p.price > $1
-        AND p.final_price < $2
       ORDER BY p.price DESC
     `,
-      [100, limitMax],
+      [limit],
     );
     return products;
   }
